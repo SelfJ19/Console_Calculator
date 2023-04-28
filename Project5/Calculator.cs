@@ -19,6 +19,13 @@ namespace Project5
         }
         #endregion
 
+        #region Store(prevVal)
+        public void Store(string key)
+        {
+            variables[key] = variables["currentValue"];
+        }
+        #endregion
+
         #region Store()
         public void Store(string key, string value)
         {
@@ -129,7 +136,14 @@ namespace Project5
         }
         #endregion
 
-        #region Square()
+        #region Square(prevVal)
+        public void Square()
+        {
+            variables["currentValue"] = Math.Pow(this.GetCurrentValue(), 2);
+        }
+        #endregion
+
+        #region Square(p1)
         public void Square(string p1)
         {
             double a = Parse(p1);
@@ -137,7 +151,14 @@ namespace Project5
         }
         #endregion
 
-        #region Sqrt()
+        #region Sqrt(prevVal)
+        public void SquareRoot()
+        {
+            variables["currentValue"] = Math.Sqrt(this.GetCurrentValue());
+        }
+        #endregion
+
+        #region Sqrt(p1)
         public void SquareRoot(string p1)
         {
             double a = Parse(p1);
@@ -145,12 +166,37 @@ namespace Project5
         }
         #endregion
 
-        #region Exponential()
+        #region Exponential(prevVal)
+        public void Exponentiate(string p1)
+        {
+            double a = Parse(p1);
+            variables["currentValue"] = Math.Pow(this.GetCurrentValue(), a);
+        }
+        #endregion
+
+        #region Exponential(p1,p2)
         public void Exponentiate(string p1, string p2)
         {
             double a = Parse(p1);
             double b = Parse(p2);
             variables["currentValue"] = Math.Pow(a, b);
+        }
+        #endregion
+
+        #region Factorial(prevVal)
+        public void Factorial()
+        {
+            double total = 1;
+            if (variables["currentValue"] < 0)
+            {
+                throw new Exception("Can not do the factorial of a negative value.");
+            }
+
+            for (double i = variables["currentValue"]; i > 0; i--)
+            {
+                total *= i;
+            }
+            variables["currentValue"] = total;
         }
         #endregion
 
@@ -169,7 +215,6 @@ namespace Project5
                    total *= i;
                 }
             variables["currentValue"] = total;
-            
         }
         #endregion
     }
