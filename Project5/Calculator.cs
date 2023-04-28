@@ -224,5 +224,12 @@ namespace Project5
             variables["currentValue"] = 0;
         }
         #endregion
+
+        #region Set()
+        public void Set(string key)
+        {
+            variables["currentValue"] = variables[key];
+        }
+        #endregion
     }
 }
