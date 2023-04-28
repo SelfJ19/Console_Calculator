@@ -31,6 +31,7 @@ public class Program
         dispatchTable["factorial"] = new Action<string>((p1) => calculator.Factorial(p1));
         dispatchTable["store1"] = new Action<string>((p1) => calculator.Store(p1));
         dispatchTable["store"] = new Action<string, string>((p1, p2) => calculator.Store(p1, p2));
+        dispatchTable["clear"] = new Action(() => calculator.Clear());
         dispatchTable["exit"] = new Action(() => { isRunning = false; });
         
         while(isRunning)
@@ -62,6 +63,7 @@ public class Program
                 Console.WriteLine("Exponentiate [value1] [value2]");                
                 Console.WriteLine("Factorial [value]");
                 Console.WriteLine("Store [key] [value]");
+                Console.WriteLine("Clear \t\t\t// resets the calculator");
                 Console.WriteLine("Exit");
                 Console.WriteLine("==================================================================\n");
                 Console.WriteLine("Current value:\t" + calculator.GetCurrentValue().ToString());

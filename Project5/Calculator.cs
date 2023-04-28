@@ -217,5 +217,12 @@ namespace Project5
             variables["currentValue"] = total;
         }
         #endregion
+
+        #region Clear()
+        public void Clear()
+        {
+            variables["currentValue"] = 0;
+        }
+        #endregion
     }
 }
