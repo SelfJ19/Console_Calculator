@@ -393,7 +393,9 @@ namespace Project5
         /// <param name="key">variable that is going to store the current value</param>
         public void Set(string key)
         {
-            SetCurrentValue(variables[key]);
+            if (variables.ContainsKey(key) && variables[key] is double)
+                SetCurrentValue(variables[key]);
+            else Console.WriteLine("Variable could not be set");
         }
         #endregion
 
