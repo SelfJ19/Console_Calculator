@@ -65,7 +65,7 @@ namespace Project5
                 loadedVariables[array[0]] = double.Parse(array[1]);
             }
             calculator.variables = loadedVariables;
-            Console.WriteLine("Varaibles Loaded");
+            Console.WriteLine("Variables Loaded");
         }
         #endregion
     }
