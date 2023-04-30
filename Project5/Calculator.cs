@@ -93,7 +93,7 @@ namespace Project5
 
         #region Addition(p1)
         /// <summary>
-        /// adds a value to the current value
+        /// adds a value to the current value and sets the current value to that value
         /// </summary>
         /// <param name="p1">what is getting added to the current value</param>
         public void Addition(string p1)
@@ -119,7 +119,7 @@ namespace Project5
 
         #region Subtraction(p1)
         /// <summary>
-        /// subtracts a single value from the current value
+        /// subtracts a single value from the current value and updates the current value to the answer
         /// </summary>
         /// <param name="p1">the value to be subtracted</param>
         public void Subtraction(string p1)
@@ -144,6 +144,10 @@ namespace Project5
         #endregion
 
         #region Multiplication(p1)
+        /// <summary>
+        /// multiplies the current value by a single value and updates the current value to the answer
+        /// </summary>
+        /// <param name="p1">the value that the current value is multiplied by</param>
         public void Multiplication(string p1)
         {
             double b = Parse(p1);
@@ -152,6 +156,11 @@ namespace Project5
         #endregion
 
         #region Multiply(p1,p2)
+        /// <summary>
+        /// multiplies 2 values together and sets the current value to it
+        /// </summary>
+        /// <param name="p1">the first value that is multiplied</param>
+        /// <param name="p2">the second value that is multiplied</param>
         public void Multiplication(string p1, string p2)
         {
             double a = Parse(p1);
@@ -161,6 +170,10 @@ namespace Project5
         #endregion
 
         #region Divide(p1)
+        /// <summary>
+        /// divides the current value by a single value and updates current value to the answer
+        /// </summary>
+        /// <param name="p1">the value that the current value is divided by</param>
         public void Division(string p1)
         {
             double b = Parse(p1);
@@ -169,6 +182,11 @@ namespace Project5
         #endregion
 
         #region Divide(p1,p2)
+        /// <summary>
+        /// divides two numbers and sets the current value equal to the result
+        /// </summary>
+        /// <param name="p1">the value that is being divided</param>
+        /// <param name="p2">the value that is dividing into the first value</param>
         public void Division(string p1, string p2)
         {
             double a = Parse(p1);
@@ -178,6 +196,10 @@ namespace Project5
         #endregion
 
         #region Mod(p1)
+        /// <summary>
+        /// takes the modulus of the current value by a value that is passed into the method and updates current value to the answer
+        /// </summary>
+        /// <param name="p1">that value that is used to take the modulus of the current value by</param>
         public void Modulus(string p1)
         {
             double b = Parse(p1);
@@ -186,6 +208,11 @@ namespace Project5
         #endregion
 
         #region Mod(p1,p2)
+        /// <summary>
+        /// takes one value and gets the mod based on the second value updates current value to the answer
+        /// </summary>
+        /// <param name="p1">value that is getting the modulus done to it</param>
+        /// <param name="p2">value that is used for taking the modulus of the first value</param>
         public void Modulus(string p1, string p2)
         {
             double a = Parse(p1);
@@ -195,6 +222,9 @@ namespace Project5
         #endregion
 
         #region Square(prevVal)
+        /// <summary>
+        /// squares the current value updates current value to the answer
+        /// </summary>
         public void Square()
         {
             variables["currentValue"] = Math.Pow(this.GetCurrentValue(), 2);
@@ -202,6 +232,10 @@ namespace Project5
         #endregion
 
         #region Square(p1)
+        /// <summary>
+        /// squares a value that is passed in and updates current value to the answer
+        /// </summary>
+        /// <param name="p1">the value to be squared</param>
         public void Square(string p1)
         {
             double a = Parse(p1);
@@ -210,6 +244,9 @@ namespace Project5
         #endregion
 
         #region Sqrt(prevVal)
+        /// <summary>
+        /// gets the square root of the current value and updates current value to the answer
+        /// </summary>
         public void SquareRoot()
         {
             variables["currentValue"] = Math.Sqrt(this.GetCurrentValue());
@@ -217,6 +254,10 @@ namespace Project5
         #endregion
 
         #region Sqrt(p1)
+        /// <summary>
+        /// gets the square root of the value that is passed in and updates current value to the answer
+        /// </summary>
+        /// <param name="p1">the value that the square root is calculated for</param>
         public void SquareRoot(string p1)
         {
             double a = Parse(p1);
@@ -225,6 +266,10 @@ namespace Project5
         #endregion
 
         #region Exponential(prevVal)
+        /// <summary>
+        /// raises the current value to the power of whatever value is passed in and sets the current value to it
+        /// </summary>
+        /// <param name="p1">the value that is used to raise the current value to the power of</param>
         public void Exponentiate(string p1)
         {
             double a = Parse(p1);
@@ -233,6 +278,11 @@ namespace Project5
         #endregion
 
         #region Exponential(p1,p2)
+        /// <summary>
+        /// raises a value to the second value that is passed in and sets the current value to it
+        /// </summary>
+        /// <param name="p1">the value that is going to be raised to a power</param>
+        /// <param name="p2">the value that the first value is raised to</param>
         public void Exponentiate(string p1, string p2)
         {
             double a = Parse(p1);
@@ -242,6 +292,10 @@ namespace Project5
         #endregion
 
         #region Factorial(prevVal)
+        /// <summary>
+        /// takes the current value and gets its factorial and updates current value to the answer
+        /// </summary>
+        /// <exception cref="Exception">exception that is thrown if the user is trying to get a factorial of a negative number</exception>
         public void Factorial()
         {
             double total = 1;
@@ -259,6 +313,11 @@ namespace Project5
         #endregion
 
         #region Factorial()
+        /// <summary>
+        /// gets the factorial of a value that is passed in and updates current value to the answer
+        /// </summary>
+        /// <param name="p1">the value that has its factorial solved</param>
+        /// <exception cref="Exception">exception that is thrown in case a negative value is passed in</exception>
         public void Factorial(string p1)
         {
             double total = 1;
@@ -277,6 +336,9 @@ namespace Project5
         #endregion
 
         #region Clear()
+        /// <summary>
+        /// resets the current value back to 0
+        /// </summary>
         public void Clear()
         {
             variables["currentValue"] = 0;
@@ -284,6 +346,10 @@ namespace Project5
         #endregion
 
         #region Set()
+        /// <summary>
+        /// sets the current value to a string variable
+        /// </summary>
+        /// <param name="key">variable that is going to store the current value</param>
         public void Set(string key)
         {
             variables["currentValue"] = variables[key];
@@ -291,6 +357,9 @@ namespace Project5
         #endregion
 
         #region PrintKeys()
+        /// <summary>
+        /// prints each variable and its value using KeyValuePair
+        /// </summary>
         public void PrintKeys()
         {
             foreach (KeyValuePair<string, double> kvp in variables)
