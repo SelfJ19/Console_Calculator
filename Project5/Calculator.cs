@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Runtime.Intrinsics.X86;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -28,15 +29,42 @@ namespace Project5
         /// </summary>
         public Dictionary<string, dynamic> variables = new();
         #endregion
-        
+
+        #region Calculator()
+        /// <summary>
+        /// Makes variables into a stck so undo is an option by using Pop
+        /// </summary>
+        public Calculator()
+        {
+            variables["currentValue"] = new Stack<double>();
+        }
+        #endregion
+
         #region GetCurrentValue()
         /// <summary>
-        /// gets the current value and returns it if it is a value if nothing has been entered it is 0
+        /// Gets the current value as long as variables contains current value and is a stack else return 0
         /// </summary>
-        /// <returns>the current value</returns>
+        /// <returns>answer variables else its 0</returns>
         public double GetCurrentValue()
         {
-            return variables.ContainsKey("currentValue") ? variables["currentValue"] : 0;
+            if (variables.ContainsKey("currentValue") && variables["currentValue"] is Stack<double>)
+            {
+                var answerVars = variables["currentValue"];
+                return answerVars.Count == 0 ? 0 : answerVars.Peek();
+            }
+            return 0;
+        }
+        #endregion
+
+        #region SetCurrentValue()
+        /// <summary>
+        /// sets answers to the value that is passed in by using Push since it is a stack
+        /// </summary>
+        /// <param name="value">value to be pushed to be the current value</param>
+        public void SetCurrentValue(double value)
+        {
+            var answerVars = variables["currentValue"];
+            answerVars.Push(value);
         }
         #endregion
 
@@ -47,7 +75,7 @@ namespace Project5
         /// <param name="key">the variable to store the previous value</param>
         public void Store(string key)
         {
-            variables[key] = variables["currentValue"];
+            variables[key] = GetCurrentValue();
         }
         #endregion
 
@@ -100,7 +128,7 @@ namespace Project5
         public void Addition(string p1)
         {
             double b = Parse(p1);
-            variables["currentValue"] = this.GetCurrentValue() + b;
+            SetCurrentValue(this.GetCurrentValue() + b);
         }
         #endregion
 
@@ -114,7 +142,7 @@ namespace Project5
         {
             double a = Parse(p1);
             double b = Parse(p2);
-            variables["currentValue"] = a + b;
+            SetCurrentValue(a + b);
         }
         #endregion
 
@@ -126,7 +154,7 @@ namespace Project5
         public void Subtraction(string p1)
         {
             double b = Parse(p1);
-            variables["currentValue"] = this.GetCurrentValue() - b;
+            SetCurrentValue(this.GetCurrentValue() - b);
         }
         #endregion
 
@@ -140,7 +168,7 @@ namespace Project5
         {
             double a = Parse(p1);
             double b = Parse(p2);
-            variables["currentValue"] = a - b;
+            SetCurrentValue(a - b);
         }
         #endregion
 
@@ -152,7 +180,7 @@ namespace Project5
         public void Multiplication(string p1)
         {
             double b = Parse(p1);
-            variables["currentValue"] = this.GetCurrentValue() * b;
+            SetCurrentValue(this.GetCurrentValue() * b);
         }
         #endregion
 
@@ -166,7 +194,7 @@ namespace Project5
         {
             double a = Parse(p1);
             double b = Parse(p2);
-            variables["currentValue"] = a * b;
+            SetCurrentValue(a * b);
         }
         #endregion
 
@@ -178,7 +206,7 @@ namespace Project5
         public void Division(string p1)
         {
             double b = Parse(p1);
-            variables["currentValue"] = this.GetCurrentValue() / b;
+            SetCurrentValue(this.GetCurrentValue() / b);
         }
         #endregion
 
@@ -192,7 +220,7 @@ namespace Project5
         {
             double a = Parse(p1);
             double b = Parse(p2);
-            variables["currentValue"] = a / b;
+            SetCurrentValue(a / b);
         }
         #endregion
 
@@ -204,7 +232,7 @@ namespace Project5
         public void Modulus(string p1)
         {
             double b = Parse(p1);
-            variables["currentValue"] = this.GetCurrentValue() % b;
+            SetCurrentValue(this.GetCurrentValue() % b);
         }
         #endregion
 
@@ -218,7 +246,7 @@ namespace Project5
         {
             double a = Parse(p1);
             double b = Parse(p2);
-            variables["currentValue"] = a % b;
+            SetCurrentValue(a % b);
         }
         #endregion
 
@@ -228,7 +256,7 @@ namespace Project5
         /// </summary>
         public void Square()
         {
-            variables["currentValue"] = Math.Pow(this.GetCurrentValue(), 2);
+            SetCurrentValue(Math.Pow(this.GetCurrentValue(), 2));
         }
         #endregion
 
@@ -240,7 +268,7 @@ namespace Project5
         public void Square(string p1)
         {
             double a = Parse(p1);
-            variables["currentValue"] = Math.Pow(a, 2);
+            SetCurrentValue(Math.Pow(a, 2));
         }
         #endregion
 
@@ -250,7 +278,7 @@ namespace Project5
         /// </summary>
         public void SquareRoot()
         {
-            variables["currentValue"] = Math.Sqrt(this.GetCurrentValue());
+            SetCurrentValue(Math.Sqrt(this.GetCurrentValue()));
         }
         #endregion
 
@@ -262,7 +290,7 @@ namespace Project5
         public void SquareRoot(string p1)
         {
             double a = Parse(p1);
-            variables["currentValue"] = Math.Sqrt(a);
+            SetCurrentValue(Math.Sqrt(a));
         }
         #endregion
 
@@ -274,7 +302,7 @@ namespace Project5
         public void Exponentiate(string p1)
         {
             double a = Parse(p1);
-            variables["currentValue"] = Math.Pow(this.GetCurrentValue(), a);
+            SetCurrentValue(Math.Pow(this.GetCurrentValue(), a));
         }
         #endregion
 
@@ -288,7 +316,7 @@ namespace Project5
         {
             double a = Parse(p1);
             double b = Parse(p2);
-            variables["currentValue"] = Math.Pow(a, b);
+            SetCurrentValue(Math.Pow(a, b));
         }
         #endregion
 
@@ -305,11 +333,11 @@ namespace Project5
                 throw new Exception("Can not do the factorial of a negative value.");
             }
 
-            for (double i = variables["currentValue"]; i > 0; i--)
+            for (double i = GetCurrentValue(); i > 0; i--)
             {
                 total *= i;
             }
-            variables["currentValue"] = total;
+            SetCurrentValue(total);
         }
         #endregion
 
@@ -332,7 +360,19 @@ namespace Project5
                 {
                    total *= i;
                 }
-            variables["currentValue"] = total;
+            SetCurrentValue(total);
+        }
+        #endregion
+
+        #region Undo()
+        /// <summary>
+        /// Pops the last operation and prints the current value after doing so
+        /// </summary>
+        public void Undo()
+        {
+            variables["currentValue"].Pop();
+            Console.WriteLine("\n==================================================================\n");
+            Console.WriteLine("Current value:\t" + GetCurrentValue().ToString() + "\n");
         }
         #endregion
 
@@ -342,7 +382,7 @@ namespace Project5
         /// </summary>
         public void Clear()
         {
-            variables["currentValue"] = 0;
+            SetCurrentValue(0);
         }
         #endregion
 
@@ -353,7 +393,7 @@ namespace Project5
         /// <param name="key">variable that is going to store the current value</param>
         public void Set(string key)
         {
-            variables["currentValue"] = variables[key];
+            SetCurrentValue(variables[key]);
         }
         #endregion
 

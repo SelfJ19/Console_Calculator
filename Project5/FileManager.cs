@@ -9,6 +9,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using YamlDotNet.Serialization;
@@ -35,7 +36,15 @@ namespace Project5
         public void SaveToFile(Calculator calculator)
         {
             var serializer = new SerializerBuilder().Build();
+            dynamic temp = null!; 
+            if (calculator.variables.ContainsKey("currentValue"))
+            {
+                temp = calculator.variables["currentValue"];
+                calculator.variables.Remove("currentValue");
+            }
+            
             var yaml = serializer.Serialize(calculator.variables);
+            calculator.variables["currentValue"] = temp;
             File.WriteAllText(filePath, yaml);
             Console.WriteLine("Variables saved\n");
         }
@@ -43,9 +52,9 @@ namespace Project5
 
         #region LoadFile()
         /// <summary>
-        /// 
+        /// this is the link I used to figure out how to store the variables in a yaml doc https://github.com/aaubry/YamlDotNet
         /// </summary>
-        /// <param name="calculator"></param>
+        /// <param name="calculator">takes the input and stores it in the calculator</param>
         public void LoadFromFile(Calculator calculator)
         {
             string[] line = File.ReadAllText(filePath).Split("\n");
