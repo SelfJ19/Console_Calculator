@@ -405,6 +405,8 @@ namespace Project5
         {
             foreach (KeyValuePair<string, dynamic> kvp in variables)
             {
+                if (kvp.Key.Equals("currentValue"))
+                    continue;
                 Console.WriteLine($"{kvp}");
             }
         }

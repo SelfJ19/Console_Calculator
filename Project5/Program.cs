@@ -67,7 +67,7 @@ public class Program
             {
                 Console.WriteLine("==================================================================\n");
 
-                string[] input = Console.ReadLine().Split(" ");
+                string[] input = Console.ReadLine()!.Split(" ");
                 input[0] = input[0].ToLower();
                 if (input.Length == 3)
                 {

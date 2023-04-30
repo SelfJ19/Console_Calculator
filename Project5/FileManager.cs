@@ -42,7 +42,6 @@ namespace Project5
                 temp = calculator.variables["currentValue"];
                 calculator.variables.Remove("currentValue");
             }
-            
             var yaml = serializer.Serialize(calculator.variables);
             calculator.variables["currentValue"] = temp;
             File.WriteAllText(filePath, yaml);
@@ -64,7 +63,9 @@ namespace Project5
                 string[] array = line[i].Split(":");
                 loadedVariables[array[0]] = double.Parse(array[1]);
             }
+            var temp = calculator.variables["currentValue"];
             calculator.variables = loadedVariables;
+            calculator.variables["currentValue"] = temp;
             Console.WriteLine("Variables Loaded");
         }
         #endregion
