@@ -26,7 +26,7 @@ namespace Project5
         /// <summary>
         /// Attribute that stores variables and their values in a dictionary
         /// </summary>
-        public Dictionary<string, double> variables = new();
+        public Dictionary<string, dynamic> variables = new();
         #endregion
         
         #region GetCurrentValue()
@@ -53,13 +53,14 @@ namespace Project5
 
         #region Store()
         /// <summary>
-        /// stores a value into a string variable and uses regex to check if it is lowercase letters only if not says it is unknown
+        /// stores a value into a string variable and uses regex to check if it is lowercase letters only, if not says it is unknown
+        /// this is where I found how to do this https://stackoverflow.com/questions/1181419/verifying-that-a-string-contains-only-letters-in-c-sharp#:~:text=public%20static%20bool%20ContainsOnlyLetters%20%28this%20string%20input%29%20%7B,%27a%27%20and%20%3C%3D%20%27z%27%29%3B%20i%2B%2B%29%3B%20return%20isValid%3B%20%7D
         /// </summary>
         /// <param name="key">the variable that holds the value</param>
         /// <param name="value">what is getting stored as a variable</param>
         public void Store(string key, string value)
         {
-            if (key == key.ToLower() && Regex.IsMatch(key, "^[a-zA-Z]+$"))
+            if (Regex.IsMatch(key, "^[a-z]+$"))
             {
                 variables[key] = double.Parse(value);
             }
@@ -362,7 +363,7 @@ namespace Project5
         /// </summary>
         public void PrintKeys()
         {
-            foreach (KeyValuePair<string, double> kvp in variables)
+            foreach (KeyValuePair<string, dynamic> kvp in variables)
             {
                 Console.WriteLine($"{kvp}");
             }

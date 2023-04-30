@@ -41,9 +41,23 @@ namespace Project5
         }
         #endregion
 
+        #region LoadFile()
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="calculator"></param>
         public void LoadFromFile(Calculator calculator)
         {
-
+            string[] line = File.ReadAllText(filePath).Split("\n");
+            Dictionary<string, dynamic> loadedVariables = new();
+            for(int i = 0; i < line.Length - 1; i++)
+            {
+                string[] array = line[i].Split(":");
+                loadedVariables[array[0]] = double.Parse(array[1]);
+            }
+            calculator.variables = loadedVariables;
+            Console.WriteLine("Varaibles Loaded");
         }
+        #endregion
     }
 }

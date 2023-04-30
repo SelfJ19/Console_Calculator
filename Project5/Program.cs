@@ -8,16 +8,24 @@
 ///////////////////////////////////////////////////////////////////////////////
 using Microsoft.CSharp.RuntimeBinder;
 using Project5;
+using System.ComponentModel.Design;
 using System.Security.Cryptography.X509Certificates;
 
 public class Program
 {
+    #region Attributes
+    /// <summary>
+    /// 
+    /// </summary>
     public static Dictionary<string, dynamic> dispatchTable = new();
+    public static Calculator calculator = new Calculator();
+    #endregion
 
+    #region Main()
     public static void Main(string[] args)
     {
         bool isRunning = true;
-        Calculator calculator = new Calculator();
+        
         FileManager fileManager = new FileManager();
 
         dispatchTable["add1"] = new Action<string>((p1) => calculator.Addition(p1));
@@ -43,7 +51,7 @@ public class Program
         dispatchTable["set"] =new Action<string>((p1) => calculator.Set(p1));
         dispatchTable["printkeys"] = new Action(() => calculator.PrintKeys());
         dispatchTable["clear"] = new Action(() => calculator.Clear());
-        //dispatchTable["inputfile"] = new Action<string>((p1) => fileManager.FillFromFile(p1));
+        dispatchTable["loadfile"] = new Action(() => fileManager.LoadFromFile(calculator));
         dispatchTable["savefile"] = new Action(() => fileManager.SaveToFile(calculator));
         dispatchTable["exit"] = new Action(() => { isRunning = false; });
         
@@ -51,41 +59,10 @@ public class Program
         {
             try
             {
-                Console.WriteLine("Please select from the following options.");
-                Console.WriteLine("Enter your command as the function first & then the value(s) you want to perform the operation on.");
-                Console.WriteLine("PLease be sure to include the spaces.\n");
-                Console.WriteLine("// Means this is a comment that is not to be entered as part of the command");
-                Console.WriteLine("===================== Calculator Options =========================\n");
-                Console.WriteLine("Add1 [value1] \t\t// add this to the current value");
-                Console.WriteLine("Subtract1 [value1] \t// subtract this from the current value");
-                Console.WriteLine("Multiply1 [value1] \t// multiply the current value by this");
-                Console.WriteLine("Divide1 [value1] \t// divide the current value by this");
-                Console.WriteLine("Mod1 [value1] \t\t// mod the current value by this");
-                Console.WriteLine("Sq1 \t\t\t// square the current value");
-                Console.WriteLine("Sqrt1 \t\t\t// take the sqrt of the current value");
-                Console.WriteLine("Exponentiate1 [value1] \t// raise the current value by this value");
-                Console.WriteLine("Factorial1 \t\t// calculate the factorial of the current value");
-                Console.WriteLine("Store [key] \t\t// store the current value to a key\n");
-                Console.WriteLine("Add [value1] [value2]");                
-                Console.WriteLine("Subtract [value1] [value2]");                
-                Console.WriteLine("Multiply [value1] [value2]");                
-                Console.WriteLine("Divide [value1] [value2]");                
-                Console.WriteLine("Mod [value1] [value2]");                
-                Console.WriteLine("Sq [value]");                
-                Console.WriteLine("Sqrt [value]");                
-                Console.WriteLine("Exponentiate [value1] [value2]");                
-                Console.WriteLine("Factorial [value]");
-                Console.WriteLine("Store [key] [value]");
-                Console.WriteLine("Set [key] \t\t// set the current value to a variable");
-                Console.WriteLine("PrintKeys \t\t// Prints the keys and their values");
-                Console.WriteLine("Clear \t\t\t// resets the calculator");
-                Console.WriteLine("InputFile [path] \t// Input a file with variables");
-                Console.WriteLine("SaveFile [path] \t// Saves your variables to a file");
-                Console.WriteLine("Exit");
-                Console.WriteLine("==================================================================\n");
-                Console.WriteLine("Current value:\t" + calculator.GetCurrentValue().ToString());
+                Menu();
 
-                string[] input = Console.ReadLine().ToLower().Split(" ");
+                string[] input = Console.ReadLine().Split(" ");
+                input[0] = input[0].ToLower();
                 if (input.Length == 3)
                 {
                     dispatchTable[input[0]](input[1], input[2]);
@@ -105,4 +82,44 @@ public class Program
             catch (Exception e){ Console.WriteLine(e.Message); }
         }
     }
+    #endregion
+
+    #region Menu()
+    public static void Menu()
+    {
+        Console.WriteLine("Please select from the following options.");
+        Console.WriteLine("Enter your command as the function first & then the value(s) you want to perform the operation on.");
+        Console.WriteLine("PLease be sure to include the spaces.\n");
+        Console.WriteLine("// Means this is a comment that is not to be entered as part of the command");
+        Console.WriteLine("===================== Calculator Options =========================\n");
+        Console.WriteLine("Add1 [value1] \t\t// add this to the current value");
+        Console.WriteLine("Subtract1 [value1] \t// subtract this from the current value");
+        Console.WriteLine("Multiply1 [value1] \t// multiply the current value by this");
+        Console.WriteLine("Divide1 [value1] \t// divide the current value by this");
+        Console.WriteLine("Mod1 [value1] \t\t// mod the current value by this");
+        Console.WriteLine("Sq1 \t\t\t// square the current value");
+        Console.WriteLine("Sqrt1 \t\t\t// take the sqrt of the current value");
+        Console.WriteLine("Exponentiate1 [value1] \t// raise the current value by this value");
+        Console.WriteLine("Factorial1 \t\t// calculate the factorial of the current value");
+        Console.WriteLine("Store [key] \t\t// store the current value to a key\n");
+        Console.WriteLine("Add [value1] [value2]");
+        Console.WriteLine("Subtract [value1] [value2]");
+        Console.WriteLine("Multiply [value1] [value2]");
+        Console.WriteLine("Divide [value1] [value2]");
+        Console.WriteLine("Mod [value1] [value2]");
+        Console.WriteLine("Sq [value]");
+        Console.WriteLine("Sqrt [value]");
+        Console.WriteLine("Exponentiate [value1] [value2]");
+        Console.WriteLine("Factorial [value]");
+        Console.WriteLine("Store [key] [value]");
+        Console.WriteLine("Set [key] \t\t// set the current value to a variable");
+        Console.WriteLine("PrintKeys \t\t// Prints the keys and their values");
+        Console.WriteLine("Clear \t\t\t// resets the calculator");
+        Console.WriteLine("LoadFile  \t\t// Input a file with variables");
+        Console.WriteLine("SaveFile  \t\t// Saves your variables to a file");
+        Console.WriteLine("Exit");
+        Console.WriteLine("==================================================================\n");
+        Console.WriteLine("Current value:\t" + calculator.GetCurrentValue().ToString());
+    }
+    #endregion
 }
