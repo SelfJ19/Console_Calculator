@@ -1,18 +1,39 @@
-﻿using System;
+﻿///////////////////////////////////////////////////////////////////////////////
+//
+// Author: Jason Self, selfj1@etsu.edu
+// Course: CSCI-2210-001 - Data Structures
+// Assignment: Project 5 - Calculator
+// Description: Creates a calculator and all of its functions
+//
+///////////////////////////////////////////////////////////////////////////////
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Project5
 {
-    internal class Calculator
+    /// <summary>
+    /// Creates the calculator class with all of its methods
+    /// </summary>
+    public class Calculator
     {
-        Dictionary<string, double> variables = new();
-        // stack of answers to pop the previous result
+        #region Attributes
+        /// <summary>
+        /// Attribute that stores variables and their values in a dictionary
+        /// </summary>
+        public Dictionary<string, double> variables = new();
+        #endregion
+        
         #region GetCurrentValue()
+        /// <summary>
+        /// gets the current value and returns it if it is a value if nothing has been entered it is 0
+        /// </summary>
+        /// <returns>the current value</returns>
         public double GetCurrentValue()
         {
             return variables.ContainsKey("currentValue") ? variables["currentValue"] : 0;
@@ -20,6 +41,10 @@ namespace Project5
         #endregion
 
         #region Store(prevVal)
+        /// <summary>
+        /// Stores the previous value into a variable
+        /// </summary>
+        /// <param name="key">the variable to store the previous value</param>
         public void Store(string key)
         {
             variables[key] = variables["currentValue"];
@@ -27,15 +52,30 @@ namespace Project5
         #endregion
 
         #region Store()
+        /// <summary>
+        /// stores a value into a string variable and uses regex to check if it is lowercase letters only if not says it is unknown
+        /// </summary>
+        /// <param name="key">the variable that holds the value</param>
+        /// <param name="value">what is getting stored as a variable</param>
         public void Store(string key, string value)
         {
-            double x;
-            double.TryParse(value, out x);
-            variables[key] = x;
+            if (key == key.ToLower() && Regex.IsMatch(key, "^[a-zA-Z]+$"))
+            {
+                variables[key] = double.Parse(value);
+            }
+            else
+            {
+                Console.WriteLine("Unknown variable");
+            }
         }
         #endregion
 
         #region Parse()
+        /// <summary>
+        /// Parses the value that is inputed into a double and checks to make sure it can and returns it
+        /// </summary>
+        /// <param name="value">what gets parsed</param>
+        /// <returns>value after it is parsed into a double</returns>
         public double Parse(string value)
         {
             double x;
@@ -52,6 +92,10 @@ namespace Project5
         #endregion
 
         #region Addition(p1)
+        /// <summary>
+        /// adds a value to the current value
+        /// </summary>
+        /// <param name="p1">what is getting added to the current value</param>
         public void Addition(string p1)
         {
             double b = Parse(p1);
@@ -60,6 +104,11 @@ namespace Project5
         #endregion
 
         #region Add(p1,p2)
+        /// <summary>
+        /// adds 2 values together and makes them the current value
+        /// </summary>
+        /// <param name="p1">the first value that is added to the second</param>
+        /// <param name="p2">the second value that gets added to the first</param>
         public void Addition(string p1, string p2)
         {
             double a = Parse(p1);
@@ -69,6 +118,10 @@ namespace Project5
         #endregion
 
         #region Subtraction(p1)
+        /// <summary>
+        /// subtracts a single value from the current value
+        /// </summary>
+        /// <param name="p1">the value to be subtracted</param>
         public void Subtraction(string p1)
         {
             double b = Parse(p1);
@@ -77,6 +130,11 @@ namespace Project5
         #endregion
 
         #region Subtraction(p1,p2)
+        /// <summary>
+        /// subtracts 2 values and sets that to be the current value
+        /// </summary>
+        /// <param name="p1">the first value that is subtracted from</param>
+        /// <param name="p2">the value that is subtracted from the first value</param>
         public void Subtraction(string p1, string p2)
         {
             double a = Parse(p1);
@@ -229,6 +287,16 @@ namespace Project5
         public void Set(string key)
         {
             variables["currentValue"] = variables[key];
+        }
+        #endregion
+
+        #region PrintKeys()
+        public void PrintKeys()
+        {
+            foreach (KeyValuePair<string, double> kvp in variables)
+            {
+                Console.WriteLine($"{kvp}");
+            }
         }
         #endregion
     }

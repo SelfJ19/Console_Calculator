@@ -1,4 +1,12 @@
-﻿using Microsoft.CSharp.RuntimeBinder;
+﻿///////////////////////////////////////////////////////////////////////////////
+//
+// Author: Jason Self, selfj1@etsu.edu
+// Course: CSCI-2210-001 - Data Structures
+// Assignment: Project 5 - Calculator
+// Description: Creates a dispatch table using dictionary's to store commands and has the main method that runs the calculator program
+//
+///////////////////////////////////////////////////////////////////////////////
+using Microsoft.CSharp.RuntimeBinder;
 using Project5;
 using System.Security.Cryptography.X509Certificates;
 
@@ -10,6 +18,7 @@ public class Program
     {
         bool isRunning = true;
         Calculator calculator = new Calculator();
+        FileManager fileManager = new FileManager();
 
         dispatchTable["add1"] = new Action<string>((p1) => calculator.Addition(p1));
         dispatchTable["add"] = new Action<string, string>((p1, p2) => calculator.Addition(p1, p2));
@@ -32,7 +41,10 @@ public class Program
         dispatchTable["store1"] = new Action<string>((p1) => calculator.Store(p1));
         dispatchTable["store"] = new Action<string, string>((p1, p2) => calculator.Store(p1, p2));
         dispatchTable["set"] =new Action<string>((p1) => calculator.Set(p1));
+        dispatchTable["printkeys"] = new Action(() => calculator.PrintKeys());
         dispatchTable["clear"] = new Action(() => calculator.Clear());
+        //dispatchTable["inputfile"] = new Action<string>((p1) => fileManager.FillFromFile(p1));
+        dispatchTable["savefile"] = new Action(() => fileManager.SaveToFile(calculator));
         dispatchTable["exit"] = new Action(() => { isRunning = false; });
         
         while(isRunning)
@@ -65,7 +77,10 @@ public class Program
                 Console.WriteLine("Factorial [value]");
                 Console.WriteLine("Store [key] [value]");
                 Console.WriteLine("Set [key] \t\t// set the current value to a variable");
+                Console.WriteLine("PrintKeys \t\t// Prints the keys and their values");
                 Console.WriteLine("Clear \t\t\t// resets the calculator");
+                Console.WriteLine("InputFile [path] \t// Input a file with variables");
+                Console.WriteLine("SaveFile [path] \t// Saves your variables to a file");
                 Console.WriteLine("Exit");
                 Console.WriteLine("==================================================================\n");
                 Console.WriteLine("Current value:\t" + calculator.GetCurrentValue().ToString());
@@ -85,8 +100,8 @@ public class Program
                 {
                     dispatchTable[input[0]]();
                 }
-            } catch (RuntimeBinderException e) { Console.WriteLine("You need to enter a value or values based on which option you choose.\n"); }
-            catch (KeyNotFoundException e) { Console.WriteLine("That is not a valid operation.\n"); }
+            } catch (RuntimeBinderException) { Console.WriteLine("You need to enter a value or values based on which option you choose.\n"); }
+            catch (KeyNotFoundException) { Console.WriteLine("That is not a valid operation.\n"); }
             catch (Exception e){ Console.WriteLine(e.Message); }
         }
     }
